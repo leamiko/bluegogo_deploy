@@ -11,7 +11,8 @@ class BusinessDeploy(object):
         self.business_deploy()
 
     def argv_parser(self):
-        pass
+        if len(sys.argv) != 3:
+            sys.exit("\033[31;1mWrong number of parameters\033[0m")
 
     def fetch_host_list(self):
         pass

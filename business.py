@@ -6,7 +6,6 @@ class Business(object):
     def __init__(self):
         pass
 
-    @staticmethod
-    def fetch_business_list():
+    def fetch_business_list(self):
         from config import business_list
         return business_list

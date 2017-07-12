@@ -9,5 +9,5 @@ sys.path.append(BASE_DIR)
 from deploy import BusinessDeploy
 
 if __name__ == '__main__':
-    business_deploy = BusinessDeploy(sys.argv)
+    business_deploy = BusinessDeploy()
 

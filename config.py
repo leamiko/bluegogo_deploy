@@ -9,3 +9,6 @@ deploy_dic = {
     "online":False,
     "deploy_type_li":["tomcat","jar","static"]
 }
+
+business_list = ["mqtt","coreapi","webserver"]
+deploy_type = ["online","gray"]

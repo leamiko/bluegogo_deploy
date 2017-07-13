@@ -23,7 +23,9 @@ class Host(object):
         return "gray"
 
     def gray_host_set(self):
-        host_name_li = self.business_all_host.keys().sort()
+        host_name_li = self.business_all_host.keys()
+        host_name_li.sort()
+        print host_name_li
         if len(self.business_all_host) < 4:
             gray_host_list = [host_name_li[0]]
         else:

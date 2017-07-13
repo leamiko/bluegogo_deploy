@@ -27,7 +27,6 @@ class Host(object):
             gray_host_li = [self.business_all_host.keys()[0]]
         else:
             gray_host_li = [self.business_all_host.keys()[0],self.business_all_host.keys()[1]]
-        print gray_host_li
         target_expr = ""
         for i in gray_host_li:
             if not target_expr:
@@ -35,7 +34,8 @@ class Host(object):
             else:
                 target_expr = "%s,%i" %(target_expr,i)
         print target_expr
-
+        set_ret = self.salt_obj.cmd(target_expr,'grains.setval',["deploy_type","gray"],expr_form='compound')
+        print set_ret
 
     def gray_host_check(self):
         pass

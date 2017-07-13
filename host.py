@@ -30,7 +30,7 @@ class Host(object):
         print gray_host_li
         target_expr = ""
         for i in gray_host_li:
-            if target_expr:
+            if not target_expr:
                 target_expr = "L@s%" % i
             else:
                 target_expr = "%s,%i" %(target_expr,i)

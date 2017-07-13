@@ -8,7 +8,7 @@ class Host(object):
     def __init__(self,business):
         self.salt_obj = salt.client.LocalClient()
         self.business_all_host = self.fetch_business_host(business)
-        # print self.business_all_host
+        print self.business_all_host
 
     def fetch_business_host(self,business):
         business_all_host = self.salt_obj.cmd("G@business:%s" % business,"grains.item",["business_ip"],expr_form='compound')
@@ -24,11 +24,12 @@ class Host(object):
 
     def gray_host_set(self):
         if len(self.business_all_host) < 4:
-            gray_host_li = [self.business_all_host.keys()[0]].sort()
+            gray_host_list = [self.business_all_host.keys()[0]]
         else:
-            gray_host_li = [self.business_all_host.keys()[0],self.business_all_host.keys()[1]].sort()
+            gray_host_list = [self.business_all_host.keys()[0],self.business_all_host.keys()[1]]
+        gray_host_list.sort()
         target_expr = ""
-        for i in gray_host_li:
+        for i in gray_host_list:
             if not target_expr:
                 target_expr = "L@%s" %(i)
             else:

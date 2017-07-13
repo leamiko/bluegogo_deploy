@@ -24,9 +24,9 @@ class Host(object):
 
     def gray_host_set(self):
         if len(self.business_all_host) < 4:
-            gray_host_li = [self.business_all_host.keys()[0]]
+            gray_host_li = [self.business_all_host.keys()[0]].sort()
         else:
-            gray_host_li = [self.business_all_host.keys()[0],self.business_all_host.keys()[1]]
+            gray_host_li = [self.business_all_host.keys()[0],self.business_all_host.keys()[1]].sort()
         target_expr = ""
         for i in gray_host_li:
             if not target_expr:

@@ -8,11 +8,11 @@ class BusinessDeploy(object):
     def __init__(self):
         self.deploy_type,self.business = sys.argv[1],sys.argv[2]
         self.deploy_type_list = self.fetch_deploy_type()
-        self.host_obj = Host(self.business)
         self.business_obj = Business()
         self.business_list = self.business_obj.fetch_business_list()
         self.argv_parser()
-        self.host_list = self.fetch_deploy_host(self.deploy_type,self.business)
+        self.host_obj = Host(self.business,self.deploy_type)
+        self.host_list = self.fetch_deploy_host()
         print self.host_list
         self.business_deploy()
 
@@ -28,9 +28,9 @@ class BusinessDeploy(object):
             sys.exit("\033[31;1mPlease choose business %s \033[0m" % self.business_list)
 
     #获取要发布的主机
-    def fetch_deploy_host(self,deploy_type,business):
+    def fetch_deploy_host(self):
         fetch_host_method = getattr(self.host_obj,self.deploy_type)
-        return fetch_host_method(deploy_type,business)
+        return fetch_host_method()
 
     #获取所有发布方法的列表
     def fetch_deploy_type(self):

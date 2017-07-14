@@ -57,9 +57,9 @@ class Host(object):
         mc.set("%s_%s" %(self.business,deploy_type),host_list)
         print mc.get("%s_%s" %(self.business,deploy_type))
 
-    def get_grains_memcache(self,business,deploy_type):
+    def get_grains_memcache(self):
         mc = memcache.Client([memcached_addr],debug=True)
-        ret = mc.get("%s_%s" %(business,deploy_type))
+        ret = mc.get("%s_%s" %(self.business,self.deploy_type))
         print ret
 
     def host_expr_generate(self,host_list):

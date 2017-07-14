@@ -12,3 +12,5 @@ deploy_dic = {
 
 business_list = ["mqtt","coreapi","webserver"]
 deploy_type = ["online","gray"]
+memcached_addr = "127.0.0.1"
+gray_host_num = 2

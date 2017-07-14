@@ -2,43 +2,74 @@
 #_*_ coding:utf-8 _*_
 
 import salt.client
-
+import memcache
+from config import memcached_addr
 
 class Host(object):
-    def __init__(self,business):
+    def __init__(self,business,deploy_type):
+        self.business = business
+        self.deploy_type = deploy_type
         self.salt_obj = salt.client.LocalClient()
-        self.business_all_host = self.fetch_business_host(business)
-        print self.business_all_host
+        self.business_all_host = self.fetch_business_host()
+        self.host_grains_check()
+        # print self.business_all_host
 
-    def fetch_business_host(self,business):
-        business_all_host = self.salt_obj.cmd("G@business:%s" % business,"grains.item",["business_ip"],expr_form='compound')
+    def fetch_business_host(self):
+        business_all_host = self.salt_obj.cmd("G@business:%s" % self.business,"grains.item",["business_ip"],expr_form='compound')
         return business_all_host
 
-    def online(self,deploy_type,business):
+    def online(self):
 
         return "online"
 
-    def gray(self,deploy_type,business):
-        self.gray_host_set()
+    def gray(self):
         return "gray"
 
-    def gray_host_set(self):
+    def grains_set(self):
         host_name_li = self.business_all_host.keys()
         host_name_li.sort()
-        print host_name_li
+        gray_host_list = []
         if len(self.business_all_host) < 4:
-            gray_host_list = [host_name_li[0]]
+            gray_host_list = host_name_li.pop(0)
         else:
-            gray_host_list = [host_name_li[0],host_name_li[1]]
-        target_expr = ""
-        for i in gray_host_list:
-            if not target_expr:
-                target_expr = "L@%s" %(i)
-            else:
-                target_expr = "%s,%i" %(target_expr,i)
-        print target_expr
-        set_ret = self.salt_obj.cmd(target_expr,'grains.setval',["deploy_type","gray"],expr_form='compound')
-        print set_ret
+            from config import gray_host_num
+            for i in xrange(gray_host_num):
+                gray_host = host_name_li.pop(0)
+                gray_host_list.append(gray_host)
+        print host_name_li
+        print gray_host_list
+        self.grains_set(gray_host_list)
+        self.set_grains_memcache("gray",gray_host_list)
+        self.grains_set(host_name_li)
+        self.set_grains_memcache("online",host_name_li)
 
-    def gray_host_check(self):
-        pass
+    def host_grains_check(self):
+        tag = True
+        get_host_list = self.salt_obj.cmd("G@business:%s and G@deploy_type:%s" %(self.business,self.deploy_type),"grains.item",["business_ip"],expr_form='compound').keys()
+        get_host_list.sort()
+        mem_host_list = self.get_grains_memcache()
+        if get_host_list != mem_host_list:
+            self.grains_set()
+
+
+    def set_grains_memcache(self,deploy_type,host_list):
+        mc = memcache.Client([memcached_addr],debug=True)
+        mc.set("%s_%s" %(self.business,deploy_type),host_list)
+        print mc.get("%s_%s" %(self.business,deploy_type))
+
+    def get_grains_memcache(self,business,deploy_type):
+        mc = memcache.Client([memcached_addr],debug=True)
+        ret = mc.get("%s_%s" %(business,deploy_type))
+        print ret
+
+    def host_expr_generate(self,host_list):
+        target_expr = ""
+        for i in host_list:
+            if not target_expr:
+                target_expr = "L@%s" % (i)
+            else:
+                target_expr = "%s,%i" % (target_expr, i)
+
+    def grains_set(self,deploy_type,host_list):
+        target_expr = self.host_expr_generate(host_list)
+        set_ret = self.salt_obj.cmd(target_expr, 'grains.setval', ["deploy_type", deploy_type], expr_form='compound')

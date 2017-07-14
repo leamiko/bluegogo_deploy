@@ -50,6 +50,7 @@ class Host(object):
         get_host_list = self.salt_obj.cmd("G@business:%s and G@deploy_type:%s" %(self.business,self.deploy_type),"grains.item",["business_ip"],expr_form='compound').keys()
         get_host_list.sort()
         mem_host_list = self.get_grains_memcache()
+        print "!!!!%s!!!!%s" %(get_host_list,mem_host_list)
         if get_host_list != mem_host_list:
             self.host_grains_set()
 

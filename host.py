@@ -39,11 +39,11 @@ class Host(object):
             for i in xrange(gray_host_num):
                 gray_host = host_name_li.pop(0)
                 gray_host_list.append(gray_host)
-        print host_name_li
-        print gray_host_list
-        self.grains_set(gray_host_list)
+        print host_name_li,"...."
+        print gray_host_list,"...."
+        self.grains_set("gray",gray_host_list)
         self.set_grains_memcache("gray",gray_host_list)
-        self.grains_set(host_name_li)
+        self.grains_set("online",host_name_li)
         self.set_grains_memcache("online",host_name_li)
 
     def host_grains_check(self):
@@ -57,12 +57,12 @@ class Host(object):
     def set_grains_memcache(self,deploy_type,host_list):
         mc = memcache.Client([memcached_addr],debug=True)
         mc.set("%s_%s" %(self.business,deploy_type),host_list)
-        print mc.get("%s_%s" %(self.business,deploy_type))
+        print mc.get("%s_%s" %(self.business,deploy_type)),".........."
 
     def get_grains_memcache(self):
         mc = memcache.Client([memcached_addr],debug=True)
         ret = mc.get("%s_%s" %(self.business,self.deploy_type))
-        print ret
+        print ret,"........."
 
     def host_expr_generate(self,host_list):
         target_expr = ""
@@ -73,6 +73,6 @@ class Host(object):
                 target_expr = "%s,%i" % (target_expr, i)
         return target_expr
 
-    def grains_set(self,host_list):
+    def grains_set(self,deploy_type,host_list):
         target_expr = self.host_expr_generate(host_list)
-        set_ret = self.salt_obj.cmd(target_expr, 'grains.setval', ["deploy_type", self.deploy_type], expr_form='compound')
+        set_ret = self.salt_obj.cmd(target_expr, 'grains.setval', ["deploy_type", deploy_type], expr_form='compound')

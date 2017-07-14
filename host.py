@@ -28,19 +28,17 @@ class Host(object):
     def host_grains_set(self):
         host_name_li = self.business_all_host.keys()
         host_name_li.sort()
-        print "....%s" % host_name_li
+        # print "....%s" % host_name_li
         gray_host_list = []
         if len(self.business_all_host) < 4:
             gray_host = host_name_li.pop(0)
             gray_host_list.append(gray_host)
-            print "....%s" % gray_host_list
+            # print "....%s" % gray_host_list
         else:
             from config import gray_host_num
             for i in xrange(gray_host_num):
                 gray_host = host_name_li.pop(0)
                 gray_host_list.append(gray_host)
-        print host_name_li,"...."
-        print gray_host_list,"...."
         self.grains_set("gray",gray_host_list)
         self.set_grains_memcache("gray",gray_host_list)
         self.grains_set("online",host_name_li)
@@ -58,12 +56,12 @@ class Host(object):
     def set_grains_memcache(self,deploy_type,host_list):
         mc = memcache.Client([memcached_addr],debug=True)
         mc.set("%s_%s" %(self.business,deploy_type),host_list)
-        print mc.get("%s_%s" %(self.business,deploy_type)),".........."
+        # print mc.get("%s_%s" %(self.business,deploy_type)),".........."
 
     def get_grains_memcache(self):
         mc = memcache.Client([memcached_addr],debug=True)
         ret = mc.get("%s_%s" %(self.business,self.deploy_type))
-        print ret,"........."
+        # print ret,"........."
         return ret
 
     def host_expr_generate(self,host_list):

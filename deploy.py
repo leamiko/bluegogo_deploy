@@ -8,8 +8,8 @@ class BusinessDeploy(object):
     def __init__(self):
         self.deploy_type,self.business = sys.argv[1],sys.argv[2]
         self.deploy_type_list = self.fetch_deploy_type()
-        self.business_list = self.business_obj.fetch_business_list()
         self.business_obj = Business()
+        self.business_list = self.business_obj.fetch_business_list()
         self.argv_parser()
         self.host_obj = Host(self.business,self.deploy_type)
         self.host_list = self.fetch_deploy_host()

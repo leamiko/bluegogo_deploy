@@ -11,19 +11,13 @@ class Host(object):
         self.deploy_type = deploy_type
         self.salt_obj = salt.client.LocalClient()
         self.business_all_host = self.fetch_business_host()
+        self.deploy_host_dict = self.salt_obj.cmd("G@business:%s and G@deploy_type:%s" % (self.business, self.deploy_type),"grains.item", ["business_ip"], expr_form='compound')
         self.host_grains_check()
         # print self.business_all_host
 
     def fetch_business_host(self):
         business_all_host = self.salt_obj.cmd("G@business:%s" % self.business,"grains.item",["business_ip"],expr_form='compound')
         return business_all_host
-
-    def online(self):
-
-        return "online"
-
-    def gray(self):
-        return "gray"
 
     def host_grains_set(self):
         host_name_li = self.business_all_host.keys()
@@ -45,12 +39,13 @@ class Host(object):
         self.set_grains_memcache("online",host_name_li)
 
     def host_grains_check(self):
-        get_host_list = self.salt_obj.cmd("G@business:%s and G@deploy_type:%s" %(self.business,self.deploy_type),"grains.item",["business_ip"],expr_form='compound').keys()
+        get_host_list = self.deploy_host_dict.keys()
         get_host_list.sort()
         mem_host_list = self.get_grains_memcache()
         print "!!!!%s!!!!%s" %(get_host_list,mem_host_list)
         if get_host_list != mem_host_list:
             self.host_grains_set()
+            self.deploy_host_dict = self.salt_obj.cmd("G@business:%s and G@deploy_type:%s" % (self.business, self.deploy_type),"grains.item", ["business_ip"], expr_form='compound')
 
 
     def set_grains_memcache(self,deploy_type,host_list):

@@ -12,8 +12,8 @@ class BusinessDeploy(object):
         self.business_list = self.business_obj.fetch_business_list()
         self.argv_parser()
         self.host_obj = Host(self.business,self.deploy_type)
-        self.host_list = self.fetch_deploy_host()
-        print self.host_list
+        self.deploy_host_list = self.host_obj.deploy_host_dict
+        print self.deploy_host_list
         self.business_deploy()
 
     #参数验证
@@ -27,10 +27,6 @@ class BusinessDeploy(object):
             print ("\033[31;1mWrong of parameters,business does not exist\033[0m")
             sys.exit("\033[31;1mPlease choose business %s \033[0m" % self.business_list)
 
-    #获取要发布的主机
-    def fetch_deploy_host(self):
-        fetch_host_method = getattr(self.host_obj,self.deploy_type)
-        return fetch_host_method()
 
     #获取所有发布方法的列表
     def fetch_deploy_type(self):

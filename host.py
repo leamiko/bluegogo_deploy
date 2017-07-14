@@ -25,7 +25,7 @@ class Host(object):
     def gray(self):
         return "gray"
 
-    def grains_set(self):
+    def host_grains_set(self):
         host_name_li = self.business_all_host.keys()
         host_name_li.sort()
         gray_host_list = []
@@ -44,12 +44,11 @@ class Host(object):
         self.set_grains_memcache("online",host_name_li)
 
     def host_grains_check(self):
-        tag = True
         get_host_list = self.salt_obj.cmd("G@business:%s and G@deploy_type:%s" %(self.business,self.deploy_type),"grains.item",["business_ip"],expr_form='compound').keys()
         get_host_list.sort()
         mem_host_list = self.get_grains_memcache()
         if get_host_list != mem_host_list:
-            self.grains_set(get_host_list)
+            self.host_grains_set()
 
 
     def set_grains_memcache(self,deploy_type,host_list):

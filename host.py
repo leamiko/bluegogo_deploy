@@ -31,7 +31,8 @@ class Host(object):
         print "....%s" % host_name_li
         gray_host_list = []
         if len(self.business_all_host) < 4:
-            gray_host_list = host_name_li.pop(0)
+            gray_host = host_name_li.pop(0)
+            gray_host_list.append(gray_host)
             print "....%s" % gray_host_list
         else:
             from config import gray_host_num

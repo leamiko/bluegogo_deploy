@@ -64,6 +64,7 @@ class Host(object):
         mc = memcache.Client([memcached_addr],debug=True)
         ret = mc.get("%s_%s" %(self.business,self.deploy_type))
         print ret,"........."
+        return ret
 
     def host_expr_generate(self,host_list):
         target_expr = ""

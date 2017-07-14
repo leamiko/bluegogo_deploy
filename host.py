@@ -71,6 +71,7 @@ class Host(object):
                 target_expr = "L@%s" % (i)
             else:
                 target_expr = "%s,%i" % (target_expr, i)
+        return target_expr
 
     def grains_set(self,host_list):
         target_expr = self.host_expr_generate(host_list)

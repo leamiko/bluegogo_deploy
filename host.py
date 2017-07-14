@@ -49,7 +49,7 @@ class Host(object):
         get_host_list.sort()
         mem_host_list = self.get_grains_memcache()
         if get_host_list != mem_host_list:
-            self.grains_set()
+            self.grains_set(get_host_list)
 
 
     def set_grains_memcache(self,deploy_type,host_list):
@@ -70,6 +70,6 @@ class Host(object):
             else:
                 target_expr = "%s,%i" % (target_expr, i)
 
-    def grains_set(self,deploy_type,host_list):
+    def grains_set(self,host_list):
         target_expr = self.host_expr_generate(host_list)
-        set_ret = self.salt_obj.cmd(target_expr, 'grains.setval', ["deploy_type", deploy_type], expr_form='compound')
+        set_ret = self.salt_obj.cmd(target_expr, 'grains.setval', ["deploy_type", self.deploy_type], expr_form='compound')

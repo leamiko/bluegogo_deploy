@@ -28,9 +28,11 @@ class Host(object):
     def host_grains_set(self):
         host_name_li = self.business_all_host.keys()
         host_name_li.sort()
+        print "....%s" % host_name_li
         gray_host_list = []
         if len(self.business_all_host) < 4:
             gray_host_list = host_name_li.pop(0)
+            print "....%s" % gray_host_list
         else:
             from config import gray_host_num
             for i in xrange(gray_host_num):

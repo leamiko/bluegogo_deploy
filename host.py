@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 #_*_ coding:utf-8 _*_
 
+import sys
 import salt.client
 import memcache
 from config import memcached_addr
@@ -12,7 +13,7 @@ class Host(object):
         self.salt_obj = salt.client.LocalClient()
         self.business_all_host = self.fetch_business_host()
         self.deploy_host_dict = self.salt_obj.cmd("G@business:%s and G@deploy_type:%s" % (self.business, self.deploy_type),"grains.item", ["business_ip"], expr_form='compound')
-        self.host_grains_check()
+        self.host_grains_set()
         # print self.business_all_host
 
     def fetch_business_host(self):
@@ -33,10 +34,11 @@ class Host(object):
             for i in xrange(gray_host_num):
                 gray_host = host_name_li.pop(0)
                 gray_host_list.append(gray_host)
-        self.grains_set("gray",gray_host_list)
+        self.deploy_type_grains_set("gray",gray_host_list)
         self.set_grains_memcache("gray",gray_host_list)
-        self.grains_set("online",host_name_li)
+        self.deploy_type_grains_set("online",host_name_li)
         self.set_grains_memcache("online",host_name_li)
+        self.gray_ip_grains_set(gray_host_list,host_name_li)
 
     def host_grains_check(self):
         get_host_list = self.deploy_host_dict.keys()
@@ -46,6 +48,8 @@ class Host(object):
         if get_host_list != mem_host_list:
             self.host_grains_set()
             self.deploy_host_dict = self.salt_obj.cmd("G@business:%s and G@deploy_type:%s" % (self.business, self.deploy_type),"grains.item", ["business_ip"], expr_form='compound')
+            # if self.deploy_type == "online":
+            #     sys.exit("\033[31;1mBusiness host is changed,Please rerun grayscale release \033[0m")
 
 
     def set_grains_memcache(self,deploy_type,host_list):
@@ -68,6 +72,18 @@ class Host(object):
                 target_expr = "%s,%i" % (target_expr, i)
         return target_expr
 
-    def grains_set(self,deploy_type,host_list):
+    def deploy_type_grains_set(self,deploy_type,host_list):
         target_expr = self.host_expr_generate(host_list)
         set_ret = self.salt_obj.cmd(target_expr, 'grains.setval', ["deploy_type", deploy_type], expr_form='compound')
+
+    def gray_ip_grains_set(self,gray_host_list,online_host_li):
+        gray_host_target_expr = self.host_expr_generate(gray_host_list)
+        gray_ip_list = self.salt_obj.cmd(gray_host_target_expr,"grains.get",["business_ip"],expr_form='compound').values()
+        ip_dict = {}
+        for i in range(len(gray_ip_list)):
+            ip_dict[gray_ip_list[i]] = online_host_li[i::len(gray_ip_list)]
+        print ip_dict
+        for gray_ip,host_list in ip_dict.items():
+            target_expr = self.host_expr_generate(host_list)
+            set_ret = self.salt_obj.cmd(target_expr, 'grains.setval', ["gray_ip", gray_ip], expr_form='compound')
+

@@ -83,7 +83,7 @@ class Host(object):
         ip_dict = {}
         for i in range(len(gray_ip_list)):
             ip_dict[gray_ip_list[i]] = online_host_li[i::len(gray_ip_list)]
-        print ip_dict
+        print ip_dict,"gray_ip_grains_set......."
         for gray_ip,host_list in ip_dict.items():
             target_expr = self.host_expr_generate(host_list)
             set_ret = self.salt_obj.cmd(target_expr, 'grains.setval', ["gray_ip", gray_ip], expr_form='compound')

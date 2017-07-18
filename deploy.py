@@ -13,7 +13,7 @@ class BusinessDeploy(object):
         self.argv_parser()
         self.host_obj = Host(self.business,self.deploy_type)
         self.deploy_host_list = self.host_obj.deploy_host_dict.keys()
-        print self.deploy_host_list
+        print self.deploy_host_list,"deploy.init......"
         self.business_deploy()
 
     #参数验证
@@ -46,7 +46,8 @@ class BusinessDeploy(object):
                 settings_after_deployment = getattr(self.business_obj,"%s_%s_after_set" %(self.business,self.deploy_type))
                 after_ret = settings_after_deployment()
         except Exception as er:
-            print er
+            print er,"......exception"
+            self.deploy()
 
 
     def deploy(self):
@@ -56,7 +57,7 @@ class BusinessDeploy(object):
             x += 1
         for i in range(x):
             host_list = self.deploy_host_list[i * online_interval_num:(i + 1) * online_interval_num]
-            print host_list
+            print host_list,"deploy operation"
             target_expr = self.host_obj.host_expr_generate(self.host_obj.deploy_host_dict.keys())
             deploy_ret = self.host_obj.salt_obj.cmd(target_expr, "state.sls",["%s.%s" % (self.deploy_type, self.business)], expr_form='compound')
         return deploy_ret

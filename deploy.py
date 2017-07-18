@@ -33,7 +33,7 @@ class BusinessDeploy(object):
         from config import deploy_type
         return deploy_type
 
-    #执行发布操作
+    #开始执行部署，包括部署前后的动作
     def business_deploy(self):
         try:
             if hasattr(self.business_obj,"%s_%s_before_set" %(self.business,self.deploy_type)):
@@ -58,6 +58,8 @@ class BusinessDeploy(object):
         for i in range(x):
             host_list = self.deploy_host_list[i * online_interval_num:(i + 1) * online_interval_num]
             print host_list,"deploy operation"
-            target_expr = self.host_obj.host_expr_generate(self.host_obj.deploy_host_dict.keys())
+            target_expr = self.host_obj.host_expr_generate(host_list)
+            print ".......gargetexpr host_list %s" %(target_expr)
             deploy_ret = self.host_obj.salt_obj.cmd(target_expr, "state.sls",["%s.%s" % (self.deploy_type, self.business)], expr_form='compound')
+            print deploy_ret
         return deploy_ret

@@ -39,6 +39,7 @@ class Host(object):
         self.deploy_type_grains_set("online",host_name_li)
         self.set_grains_memcache("online",host_name_li)
         self.gray_ip_grains_set(gray_host_list,host_name_li)
+        return gray_host_list,host_name_li
 
     def host_grains_check(self):
         get_host_list = self.deploy_host_dict.keys()

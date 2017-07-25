@@ -37,7 +37,7 @@ class BusinessDeploy(object):
     def business_deploy(self):
         try:
             if hasattr(self.business_obj,"%s_%s_before_set" %(self.business,self.deploy_type)):
-                settings_before_deployment = getattr(self.business_obj,"%s_%s_before" %(self.business,self.deploy_type))
+                settings_before_deployment = getattr(self.business_obj,"%s_%s_before_set" %(self.business,self.deploy_type))
                 before_ret = settings_before_deployment()
 
             self.deploy()

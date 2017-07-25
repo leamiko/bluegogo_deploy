@@ -14,3 +14,11 @@ nginx_config = {
     "alypay_http":["443vpc-alipay-api.bluegogo.com.conf"],
     "baidu_http":["443vpc-baidu-api.bluegogo.com.conf"],
 }
+
+business_pkg_attr = {
+    "webserver_http":{
+        "pkg_dir": "/apps/srv/salt/base/files/prod/bluegogo_web_http_prod",
+        "pkg_name": "bluegogo_backend_http-1.0.war"
+    },
+
+}

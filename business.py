@@ -11,7 +11,7 @@ class Business(object):
 
     def fetch_business_list(self):
         from config import business_list
-        return business_list,
+        return business_list
 
     def webserver_http_gray_before_set(self):
         print self.business,self.deploy_type
@@ -19,7 +19,7 @@ class Business(object):
     def weibao_http_gray_before_set(self):
         print self.business,self.deploy_type
 
-    def alypay_http_gray_before_set(self):
+    def alipay_http_gray_before_set(self):
         print self.business,self.deploy_type,"LLL"
 
     def baidu_http_gray_before_set(self):
@@ -31,7 +31,7 @@ class Business(object):
     def weibao_http_gray_after_set(self):
         print self.business,self.deploy_type
 
-    def alypay_http_gray_after_set(self):
+    def alipay_http_gray_after_set(self):
         print self.business,self.deploy_type
 
     def baidu_http_gray_after_set(self):

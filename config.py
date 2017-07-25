@@ -2,7 +2,7 @@
 #_*_ coding:utf-8 _*_
 
 
-business_list = ["mqtt","webserver_http","weibao_http","alypay_http","baidu_http","webserver_coreapi","weibao_coreapi","alypay_coreapi","baidu_coreapi"]
+business_list = ["mqtt","webserver_http","weibao_http","alipay_http","baidu_http","webserver_coreapi","weibao_coreapi","alipay_coreapi","baidu_coreapi"]
 deploy_type = ["online","gray"]
 memcached_addr = "127.0.0.1"
 gray_host_num = 2

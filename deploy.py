@@ -63,10 +63,11 @@ class BusinessDeploy(object):
 
 
     def deploy_ret_check(self,deploy_ret):
+        tag = True
         for i in deploy_ret.values():
             for x in i.values():
                 if x["result"] == False:
+                    tag = False
                     print x
                     print "deploy faild..!!!"
-                    return False
-        return True
+        return tag

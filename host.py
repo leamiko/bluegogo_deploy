@@ -12,9 +12,9 @@ class Host(object):
         self.deploy_type = deploy_type
         self.salt_obj = salt.client.LocalClient()
         self.business_all_host = self.fetch_business_host()
-        self.deploy_host_dict = self.salt_obj.cmd("G@business:%s and G@deploy_type:%s" % (self.business, self.deploy_type),"grains.item", ["business_ip"], expr_form='compound')
         self.host_grains_set()
-        # print self.business_all_host
+        print self.business_all_host
+        self.deploy_host_dict = self.salt_obj.cmd("G@business:%s and G@deploy_type:%s" % (self.business, self.deploy_type),"grains.item", ["business_ip"], expr_form='compound')
 
     def fetch_business_host(self):
         business_all_host = self.salt_obj.cmd("G@business:%s" % self.business,"grains.item",["business_ip"],expr_form='compound')
@@ -23,12 +23,12 @@ class Host(object):
     def host_grains_set(self):
         host_name_li = self.business_all_host.keys()
         host_name_li.sort()
-        # print "....%s" % host_name_li
+        print "....%s" % host_name_li
         gray_host_list = []
         if len(self.business_all_host) < 4:
             gray_host = host_name_li.pop(0)
             gray_host_list.append(gray_host)
-            # print "....%s" % gray_host_list
+            print "....%s" % gray_host_list
         else:
             from config import gray_host_num
             for i in xrange(gray_host_num):
@@ -56,7 +56,7 @@ class Host(object):
     def set_grains_memcache(self,deploy_type,host_list):
         mc = memcache.Client([memcached_addr],debug=True)
         mc.set("%s_%s" %(self.business,deploy_type),host_list)
-        # print mc.get("%s_%s" %(self.business,deploy_type)),".........."
+        print mc.get("%s_%s" %(self.business,deploy_type)),".........."
 
     def get_grains_memcache(self):
         mc = memcache.Client([memcached_addr],debug=True)

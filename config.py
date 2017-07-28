@@ -9,10 +9,15 @@ gray_host_num = 2
 online_interval_num = 4
 
 nginx_config = {
-    "webserver_http":["443vpc-api.bluegogo.com.conf"],
-    "weibao_http":["443vpc-api-weibao.bluegogo.com.conf"],
-    "alypay_http":["443vpc-alipay-api.bluegogo.com.conf"],
-    "baidu_http":["443vpc-baidu-api.bluegogo.com.conf"],
+    "root_dir":"/apps/srv/salt/base/files/prod/bluegogo_nginx_prod/conf/conf.d/",
+    "webserver_http":"api.bluegogo.com.conf",
+    "webserver_coreapi":"coreapi.bluegogo.com.conf",
+    "weibao_http":"api-weibao.bluegogo.com.conf",
+    "weibao_coreapi":"coreapi-weibao.bluegogo.com.conf",
+    "alypay_http":"alipay-api.bluegogo.com.conf",
+    "alypay_coreapi":"alipay-coreapi.bluegogo.com.conf",
+    "baidu_http":"baidu-api.bluegogo.com.conf",
+    "baidu_coreapi":"baidu-coreapi.bluegogo.com.conf"
 }
 
 business_pkg_attr = {
@@ -20,5 +25,4 @@ business_pkg_attr = {
         "pkg_dir": "/apps/srv/salt/base/files/prod/bluegogo_web_http_prod",
         "pkg_name": "bluegogo_backend_http-1.0.war"
     },
-
 }

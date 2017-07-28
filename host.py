@@ -88,3 +88,6 @@ class Host(object):
             target_expr = self.host_expr_generate(host_list)
             set_ret = self.salt_obj.cmd(target_expr, 'grains.setval', ["gray_ip", gray_ip], expr_form='compound')
 
+    def fetch_host_ip(self,target_expr):
+        host_ip_list = self.salt_obj.cmd(target_expr,"grains.item", ["business_ip"], expr_form='compound').values()
+        return host_ip_list

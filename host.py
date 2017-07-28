@@ -88,7 +88,7 @@ class Host(object):
             set_ret = self.salt_obj.cmd(target_expr, 'grains.setval', ["gray_ip", gray_ip], expr_form='compound')
 
     def fetch_host_ip(self,target_expr):
-        host_ip_list = self.salt_obj.cmd(target_expr,"grains.item", ["business_ip"], expr_form='compound').values()
+        host_ip_list = self.salt_obj.cmd(target_expr,"grains.get", ["business_ip"], expr_form='compound').values()
         return host_ip_list
 
     def fetch_nginx_host(self):

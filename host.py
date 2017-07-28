@@ -12,7 +12,6 @@ class Host(object):
         self.deploy_type = deploy_type
         self.salt_obj = salt.client.LocalClient()
         self.business_all_host = self.fetch_business_host()
-        self.host_grains_set()
         print self.business_all_host
         self.deploy_host_dict = self.salt_obj.cmd("G@business:%s and G@deploy_type:%s" % (self.business, self.deploy_type),"grains.item", ["business_ip"], expr_form='compound')
 
@@ -91,3 +90,7 @@ class Host(object):
     def fetch_host_ip(self,target_expr):
         host_ip_list = self.salt_obj.cmd(target_expr,"grains.item", ["business_ip"], expr_form='compound').values()
         return host_ip_list
+
+    def fetch_nginx_host(self):
+        nginx_host_list = self.salt_obj.cmd("G@busienss:nginx","grains.item", ["business_ip"], expr_form='compound').keys()
+        return nginx_host_list

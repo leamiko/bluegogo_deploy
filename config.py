@@ -17,7 +17,8 @@ nginx_config = {
     "alypay_http":"alipay-api.bluegogo.com.conf",
     "alypay_coreapi":"alipay-coreapi.bluegogo.com.conf",
     "baidu_http":"baidu-api.bluegogo.com.conf",
-    "baidu_coreapi":"baidu-coreapi.bluegogo.com.conf"
+    "baidu_coreapi":"baidu-coreapi.bluegogo.com.conf",
+    "nginx_conf_push_sls":"nginx"
 }
 
 business_pkg_attr = {

@@ -12,6 +12,7 @@ class BusinessDeploy(object):
         self.business_list = self.business_obj.fetch_business_list()
         self.argv_parser()
         self.host_obj = Host(self.business,self.deploy_type)
+        self.host_obj.host_grains_set()
         self.deploy_host_list = self.host_obj.deploy_host_dict.keys()
         print self.deploy_host_list,"deploy.init......"
         self.business_deploy()
@@ -51,9 +52,11 @@ class BusinessDeploy(object):
                 if hasattr(self.business_obj, "%s_%s_before_set" % (self.business, self.deploy_type)):
                     settings_before_deployment = getattr(self.business_obj,"%s_%s_before_set" % (self.business, self.deploy_type))
                     before_ret = settings_before_deployment(host_ip_list)
+
                 #按批次执行发布操作
                 deploy_ret = self.host_obj.salt_obj.cmd(target_expr, "state.sls",["%s.%s" % (self.deploy_type, self.business)],expr_form='compound')
                 print deploy_ret
+
                 #判断发布结果，并对需要发布后设置的业务进行相关设置操作
                 if self.deploy_ret_check(deploy_ret) and hasattr(self.business_obj,"%s_%s_after_set" %(self.business,self.deploy_type)):
                     settings_after_deployment = getattr(self.business_obj,"%s_%s_after_set" %(self.business,self.deploy_type))

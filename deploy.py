@@ -37,32 +37,32 @@ class BusinessDeploy(object):
     #开始执行部署，包括部署前后的动作
     def business_deploy(self):
         from config import online_interval_num
-        try:
+        # try:
             #对需要发布的主机进行分组，进行批次发布
-            x, y = len(self.deploy_host_list).__divmod__(online_interval_num)
-            if y != 0:
-                x += 1
-            for i in range(x):
-                host_list = self.deploy_host_list[i * online_interval_num:(i + 1) * online_interval_num]
-                target_expr = self.host_obj.host_expr_generate(host_list)
-                print ".......gargetexpr host_list %s" % (target_expr)
-                host_ip_list = self.host_obj.fetch_host_ip(target_expr)
-                print host_list, host_ip_list,"deploy operation"
-                #对需要进行发布前设置的业务进行相关设置操作
-                if hasattr(self.business_obj, "%s_%s_before_set" % (self.business, self.deploy_type)):
-                    settings_before_deployment = getattr(self.business_obj,"%s_%s_before_set" % (self.business, self.deploy_type))
-                    before_ret = settings_before_deployment(host_ip_list)
+        x, y = len(self.deploy_host_list).__divmod__(online_interval_num)
+        if y != 0:
+            x += 1
+        for i in range(x):
+            host_list = self.deploy_host_list[i * online_interval_num:(i + 1) * online_interval_num]
+            target_expr = self.host_obj.host_expr_generate(host_list)
+            print ".......gargetexpr host_list %s" % (target_expr)
+            host_ip_list = self.host_obj.fetch_host_ip(target_expr)
+            print host_list, host_ip_list,"deploy operation"
+            #对需要进行发布前设置的业务进行相关设置操作
+            if hasattr(self.business_obj, "%s_%s_before_set" % (self.business, self.deploy_type)):
+                settings_before_deployment = getattr(self.business_obj,"%s_%s_before_set" % (self.business, self.deploy_type))
+                before_ret = settings_before_deployment(host_ip_list)
 
-                #按批次执行发布操作
-                deploy_ret = self.host_obj.salt_obj.cmd(target_expr, "state.sls",["%s.%s" % (self.deploy_type, self.business)],expr_form='compound')
-                print deploy_ret
+            #按批次执行发布操作
+            deploy_ret = self.host_obj.salt_obj.cmd(target_expr, "state.sls",["%s.%s" % (self.deploy_type, self.business)],expr_form='compound')
+            print deploy_ret
 
-                #判断发布结果，并对需要发布后设置的业务进行相关设置操作
-                if self.deploy_ret_check(deploy_ret) and hasattr(self.business_obj,"%s_%s_after_set" %(self.business,self.deploy_type)):
-                    settings_after_deployment = getattr(self.business_obj,"%s_%s_after_set" %(self.business,self.deploy_type))
-                    after_ret = settings_after_deployment(host_ip_list)
-        except Exception as er:
-            print er,"......exception"
+            #判断发布结果，并对需要发布后设置的业务进行相关设置操作
+            if self.deploy_ret_check(deploy_ret) and hasattr(self.business_obj,"%s_%s_after_set" %(self.business,self.deploy_type)):
+                settings_after_deployment = getattr(self.business_obj,"%s_%s_after_set" %(self.business,self.deploy_type))
+                after_ret = settings_after_deployment(host_ip_list)
+        # except Exception as er:
+        #     print er,"......exception"
 
 
     def deploy_ret_check(self,deploy_ret):

@@ -74,6 +74,6 @@ class BusinessDeploy(object):
                     tag = False
                     print x
                     print "deploy faild..!!!"
-                else:
-                    print "部署完成"
+        else:
+            print "部署完成"
         return tag

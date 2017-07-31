@@ -9,7 +9,7 @@ import salt.client
 
 class Business(object):
 
-    def __init__(self,business,deploy_type):
+    def __init__(self,deploy_type,business):
         self.business = business
         self.deploy_type = deploy_type
         # self.host_obj = Host(business,business)

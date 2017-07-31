@@ -14,8 +14,8 @@ nginx_config = {
     "webserver_coreapi":"coreapi.bluegogo.com.conf",
     "weibao_http":"api-weibao.bluegogo.com.conf",
     "weibao_coreapi":"coreapi-weibao.bluegogo.com.conf",
-    "alypay_http":"alipay-api.bluegogo.com.conf",
-    "alypay_coreapi":"alipay-coreapi.bluegogo.com.conf",
+    "alipay_http":"alipay-api.bluegogo.com.conf",
+    "alipay_coreapi":"alipay-coreapi.bluegogo.com.conf",
     "baidu_http":"baidu-api.bluegogo.com.conf",
     "baidu_coreapi":"baidu-coreapi.bluegogo.com.conf",
     "nginx_conf_push_sls":"nginx"

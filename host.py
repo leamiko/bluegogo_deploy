@@ -12,7 +12,7 @@ class Host(object):
         self.deploy_type = deploy_type
         self.salt_obj = salt.client.LocalClient()
         self.business_all_host = self.fetch_business_host()
-        print self.business_all_host
+        # print self.business_all_host
         self.deploy_host_dict = self.salt_obj.cmd("G@business:%s and G@deploy_type:%s" % (self.business, self.deploy_type),"grains.item", ["business_ip"], expr_form='compound')
 
     def fetch_business_host(self):
@@ -22,7 +22,7 @@ class Host(object):
     def host_grains_set(self):
         host_name_li = self.business_all_host.keys()
         host_name_li.sort()
-        print "....%s" % host_name_li
+        print "%s所有服务器列表：%s" %(self.business,host_name_li)
         gray_host_list = []
         if len(self.business_all_host) < 4:
             gray_host = host_name_li.pop(0)
@@ -33,10 +33,13 @@ class Host(object):
             for i in xrange(gray_host_num):
                 gray_host = host_name_li.pop(0)
                 gray_host_list.append(gray_host)
+        print "其中灰度发布服务器为%s\n,线上发布服务器为：%s\n" %(gray_host_list,host_name_li)
+        print "开始设置服务器deploy_type信息......."
         self.deploy_type_grains_set("gray",gray_host_list)
-        self.set_grains_memcache("gray",gray_host_list)
+        # self.set_grains_memcache("gray",gray_host_list)
         self.deploy_type_grains_set("online",host_name_li)
-        self.set_grains_memcache("online",host_name_li)
+        # self.set_grains_memcache("online",host_name_li)
+        print "开始设置服务器gray_ip信息......"
         self.gray_ip_grains_set(gray_host_list,host_name_li)
         return gray_host_list,host_name_li
 
@@ -44,7 +47,7 @@ class Host(object):
         get_host_list = self.deploy_host_dict.keys()
         get_host_list.sort()
         mem_host_list = self.get_grains_memcache()
-        print "!!!!%s!!!!%s" %(get_host_list,mem_host_list)
+        # print "!!!!%s!!!!%s" %(get_host_list,mem_host_list)
         if get_host_list != mem_host_list:
             self.host_grains_set()
             self.deploy_host_dict = self.salt_obj.cmd("G@business:%s and G@deploy_type:%s" % (self.business, self.deploy_type),"grains.item", ["business_ip"], expr_form='compound')
@@ -75,6 +78,7 @@ class Host(object):
     def deploy_type_grains_set(self,deploy_type,host_list):
         target_expr = self.host_expr_generate(host_list)
         set_ret = self.salt_obj.cmd(target_expr, 'grains.setval', ["deploy_type", deploy_type], expr_form='compound')
+        print set_ret
 
     def gray_ip_grains_set(self,gray_host_list,online_host_li):
         gray_host_target_expr = self.host_expr_generate(gray_host_list)
@@ -86,6 +90,7 @@ class Host(object):
         for gray_ip,host_list in ip_dict.items():
             target_expr = self.host_expr_generate(host_list)
             set_ret = self.salt_obj.cmd(target_expr, 'grains.setval', ["gray_ip", gray_ip], expr_form='compound')
+            print set_ret
 
     def fetch_host_ip(self,target_expr):
         host_ip_list = self.salt_obj.cmd(target_expr,"grains.get", ["business_ip"], expr_form='compound').values()

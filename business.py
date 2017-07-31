@@ -21,15 +21,15 @@ class Business(object):
         return business_list
 
     def gray_nginx_templete_set(self,host_ip_list,tag=True):
-        print self.business
+        # print self.business
         nginx_file = "%s%s" % (nginx_config["root_dir"], nginx_config[self.business])
         for i in host_ip_list:
             if tag:
                 ret = subprocess.Popen("sed -i '/%s/s/^/#/' %s" % (i,nginx_file),shell=True, cwd='/tmp/',stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-                print ret.stdout.read(),ret.stderr.read()
+                print "配置nginx配置项，屏蔽部署服务器：",ret.stdout.read(),ret.stderr.read()
             else:
                 ret = subprocess.Popen("sed -i '/%s/s/^#*//' %s" % (i, nginx_file), shell=True, cwd='/tmp/',stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-                print ret.stdout.read(), ret.stderr.read()
+                print "配置nginx配置项，取消屏蔽：",ret.stdout.read(), ret.stderr.read()
             conf_ret = subprocess.Popen("grep %s %s" %(i,nginx_file),shell=True, cwd='/tmp/',stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             print conf_ret.stdout.read(),conf_ret.stderr.read()
         return not ret.poll()
@@ -38,13 +38,13 @@ class Business(object):
         # nginx_host_list = self.host_obj.fetch_nginx_host()
         # target_expr = self.host_obj.host_expr_generate(nginx_host_list)
         push_ret = self.salt_obj.cmd("G@busienss:nginx", "state.sls", [nginx_config["nginx_conf_push_sls"]], expr_form='compound')
-        print push_ret
+        return push_ret
 
     def webserver_http_gray_before_set(self,host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list)
         if ret:
             push_result=self.nginx_templete_push
-            print push_result
+            print "推送nginx配置至nginx服务器：%s" % push_result
         return ret
 
     def weibao_http_gray_before_set(self,host_ip_list):

@@ -12,9 +12,10 @@ class BusinessDeploy(object):
         self.business_list = self.business_obj.fetch_business_list()
         self.argv_parser()
         self.host_obj = Host(self.business,self.deploy_type)
+        print "开始设置业务服务器grains信息"
         self.host_obj.host_grains_set()
         self.deploy_host_list = self.host_obj.deploy_host_dict.keys()
-        print self.deploy_host_list,"deploy.init......"
+        print "本次所有需要部署的主机列表：%s" % self.deploy_host_list
         self.business_deploy()
 
     #参数验证
@@ -45,9 +46,9 @@ class BusinessDeploy(object):
         for i in range(x):
             host_list = self.deploy_host_list[i * online_interval_num:(i + 1) * online_interval_num]
             target_expr = self.host_obj.host_expr_generate(host_list)
-            print ".......gargetexpr host_list %s" % (target_expr)
+            print "开始部署服务器:%s" % (host_list)
             host_ip_list = self.host_obj.fetch_host_ip(target_expr)
-            print host_list, host_ip_list,"deploy operation"
+            print "服务器ip:%s" % host_ip_list
             #对需要进行发布前设置的业务进行相关设置操作
             if hasattr(self.business_obj, "%s_%s_before_set" % (self.business, self.deploy_type)):
                 settings_before_deployment = getattr(self.business_obj,"%s_%s_before_set" % (self.business, self.deploy_type))
@@ -73,4 +74,6 @@ class BusinessDeploy(object):
                     tag = False
                     print x
                     print "deploy faild..!!!"
+                else:
+                    print "部署完成"
         return tag

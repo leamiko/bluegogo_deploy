@@ -21,6 +21,7 @@ class Business(object):
         return business_list
 
     def gray_nginx_templete_set(self,host_ip_list,tag=True):
+        print self.business
         nginx_file = "%s%s" % (nginx_config["root_dir"], nginx_config[self.business])
         for i in host_ip_list:
             if tag:
@@ -36,7 +37,8 @@ class Business(object):
     def nginx_templete_push(self):
         # nginx_host_list = self.host_obj.fetch_nginx_host()
         # target_expr = self.host_obj.host_expr_generate(nginx_host_list)
-        self.salt_obj.cmd("G@busienss:nginx", "state.sls", [nginx_config["nginx_conf_push_sls"]], expr_form='compound')
+        push_ret = self.salt_obj.cmd("G@busienss:nginx", "state.sls", [nginx_config["nginx_conf_push_sls"]], expr_form='compound')
+        print push_ret
 
     def webserver_http_gray_before_set(self,host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list)

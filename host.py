@@ -14,6 +14,7 @@ class Host(object):
         self.business_all_host = self.fetch_business_host()
         # print self.business_all_host
         self.deploy_host_dict = self.salt_obj.cmd("G@business:%s and G@deploy_type:%s" % (self.business, self.deploy_type),"grains.item", ["business_ip"], expr_form='compound')
+        # print self.deploy_host_dict
 
     def fetch_business_host(self):
         business_all_host = self.salt_obj.cmd("G@business:%s" % self.business,"grains.item",["business_ip"],expr_form='compound')

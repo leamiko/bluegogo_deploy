@@ -43,7 +43,7 @@ class Business(object):
     def webserver_http_gray_before_set(self,host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list)
         if ret:
-            push_result=self.nginx_templete_push
+            push_result=self.nginx_templete_push()
             print "推送nginx配置至nginx服务器：%s" % push_result
         return ret
 

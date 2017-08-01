@@ -56,7 +56,7 @@ class BusinessDeploy(object):
 
             #按批次执行发布操作
             deploy_ret = self.host_obj.salt_obj.cmd(target_expr, "state.sls",["%s.%s" % (self.deploy_type, self.business)],expr_form='compound')
-            print deploy_ret
+            print "开始部署服务器：\n%s" % deploy_ret
 
             #判断发布结果，并对需要发布后设置的业务进行相关设置操作
             if self.deploy_ret_check(deploy_ret) and hasattr(self.business_obj,"%s_%s_after_set" %(self.business,self.deploy_type)):

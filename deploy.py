@@ -73,7 +73,9 @@ class BusinessDeploy(object):
                 if x["result"] == False:
                     tag = False
                     print x
-                    print "deploy faild..!!!"
+        if tag:
+            print "\033[31;1mOperation success..!!!\033[0m"
         else:
-            print "部署完成"
+            sys.exit("\033[31;1mOperation faild..!!!\033[0m")
         return tag
+

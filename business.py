@@ -40,88 +40,113 @@ class Business(object):
         push_ret = self.salt_obj.cmd("G@business:nginx", "state.sls", [nginx_config["nginx_conf_push_sls"]], expr_form='compound')
         return push_ret
 
+    def ret_check(self, deploy_ret):
+        tag = True
+        for i in deploy_ret.values():
+            for x in i.values():
+                if x["result"] == False:
+                    tag = False
+                    print x
+        if tag:
+            print "\033[31;1mOperation success..!!!\033[0m"
+        else:
+            sys.exit("\033[31;1mOperation faild..!!!\033[0m")
+        return tag
+
     def webserver_http_gray_before_set(self,host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list)
         if ret:
             push_result=self.nginx_templete_push()
-            print "推送nginx配置至nginx服务器：%s" % push_result
+            print "推送nginx配置至nginx服务器："
+            self.ret_check(push_result)
         return ret
 
     def weibao_http_gray_before_set(self,host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list)
         if ret:
             push_result=self.nginx_templete_push()
-            print push_result
+            print "推送nginx配置至nginx服务器："
+            self.ret_check(push_result)
         return ret
 
     def alipay_http_gray_before_set(self,host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list)
         if ret:
             push_result=self.nginx_templete_push()
-            print push_result
+            print "推送nginx配置至nginx服务器："
+            self.ret_check(push_result)
         return ret
 
     def baidu_http_gray_before_set(self,host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list)
         if ret:
             push_result=self.nginx_templete_push()
-            print push_result
+            print "推送nginx配置至nginx服务器："
+            self.ret_check(push_result)
         return ret
 
     def webserver_coreapi_gray_before_set(self, host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list)
         if ret:
             push_result=self.nginx_templete_push()
-            print push_result
+            print "推送nginx配置至nginx服务器："
+            self.ret_check(push_result)
         return ret
 
     def weibao_coreapi_gray_before_set(self, host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list)
         if ret:
             push_result=self.nginx_templete_push()
-            print push_result
+            print "推送nginx配置至nginx服务器："
+            self.ret_check(push_result)
         return ret
 
     def alipay_coreapi_gray_before_set(self, host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list)
         if ret:
             push_result=self.nginx_templete_push()
-            print push_result
+            print "推送nginx配置至nginx服务器："
+            self.ret_check(push_result)
         return ret
 
     def baidu_coreapi_gray_before_set(self, host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list)
         if ret:
             push_result=self.nginx_templete_push()
-            print push_result
+            print "推送nginx配置至nginx服务器："
+            self.ret_check(push_result)
         return ret
 
     def webserver_http_gray_after_set(self,host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list,False)
         if ret:
             push_result=self.nginx_templete_push()
-            print push_result
+            print "推送nginx配置至nginx服务器："
+            self.ret_check(push_result)
         return ret
 
     def weibao_http_gray_after_set(self,host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list,False)
         if ret:
             push_result=self.nginx_templete_push()
-            print push_result
+            print "推送nginx配置至nginx服务器："
+            self.ret_check(push_result)
         return ret
 
     def alipay_http_gray_after_set(self,host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list,False)
         if ret:
             push_result=self.nginx_templete_push()
-            print push_result
+            print "推送nginx配置至nginx服务器："
+            self.ret_check(push_result)
         return ret
 
     def baidu_http_gray_after_set(self,host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list,False)
         if ret:
             push_result=self.nginx_templete_push()
-            print push_result
+            print "推送nginx配置至nginx服务器："
+            self.ret_check(push_result)
         return ret
 
 
@@ -129,7 +154,8 @@ class Business(object):
         ret = self.gray_nginx_templete_set(host_ip_list,False)
         if ret:
             push_result=self.nginx_templete_push()
-            print push_result
+            print "推送nginx配置至nginx服务器："
+            self.ret_check(push_result)
         return ret
 
 
@@ -137,7 +163,8 @@ class Business(object):
         ret = self.gray_nginx_templete_set(host_ip_list,False)
         if ret:
             push_result=self.nginx_templete_push()
-            print push_result
+            print "推送nginx配置至nginx服务器："
+            self.ret_check(push_result)
         return ret
 
 
@@ -145,7 +172,8 @@ class Business(object):
         ret = self.gray_nginx_templete_set(host_ip_list,False)
         if ret:
             push_result=self.nginx_templete_push()
-            print push_result
+            print "推送nginx配置至nginx服务器："
+            self.ret_check(push_result)
         return ret
 
 
@@ -153,6 +181,7 @@ class Business(object):
         ret = self.gray_nginx_templete_set(host_ip_list,False)
         if ret:
             push_result=self.nginx_templete_push()
-            print push_result
+            print "推送nginx配置至nginx服务器："
+            self.ret_check(push_result)
         return ret
 

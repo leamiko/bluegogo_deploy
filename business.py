@@ -37,7 +37,7 @@ class Business(object):
     def nginx_templete_push(self):
         # nginx_host_list = self.host_obj.fetch_nginx_host()
         # target_expr = self.host_obj.host_expr_generate(nginx_host_list)
-        push_ret = self.salt_obj.cmd("G@busienss:nginx", "state.sls", [nginx_config["nginx_conf_push_sls"]], expr_form='compound')
+        push_ret = self.salt_obj.cmd("G@business:nginx", "state.sls", [nginx_config["nginx_conf_push_sls"]], expr_form='compound')
         return push_ret
 
     def webserver_http_gray_before_set(self,host_ip_list):
@@ -50,77 +50,77 @@ class Business(object):
     def weibao_http_gray_before_set(self,host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list)
         if ret:
-            push_result=self.nginx_templete_push
+            push_result=self.nginx_templete_push()
             print push_result
         return ret
 
     def alipay_http_gray_before_set(self,host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list)
         if ret:
-            push_result=self.nginx_templete_push
+            push_result=self.nginx_templete_push()
             print push_result
         return ret
 
     def baidu_http_gray_before_set(self,host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list)
         if ret:
-            push_result=self.nginx_templete_push
+            push_result=self.nginx_templete_push()
             print push_result
         return ret
 
     def webserver_coreapi_gray_before_set(self, host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list)
         if ret:
-            push_result=self.nginx_templete_push
+            push_result=self.nginx_templete_push()
             print push_result
         return ret
 
     def weibao_coreapi_gray_before_set(self, host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list)
         if ret:
-            push_result=self.nginx_templete_push
+            push_result=self.nginx_templete_push()
             print push_result
         return ret
 
     def alipay_coreapi_gray_before_set(self, host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list)
         if ret:
-            push_result=self.nginx_templete_push
+            push_result=self.nginx_templete_push()
             print push_result
         return ret
 
     def baidu_coreapi_gray_before_set(self, host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list)
         if ret:
-            push_result=self.nginx_templete_push
+            push_result=self.nginx_templete_push()
             print push_result
         return ret
 
     def webserver_http_gray_after_set(self,host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list,False)
         if ret:
-            push_result=self.nginx_templete_push
+            push_result=self.nginx_templete_push()
             print push_result
         return ret
 
     def weibao_http_gray_after_set(self,host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list,False)
         if ret:
-            push_result=self.nginx_templete_push
+            push_result=self.nginx_templete_push()
             print push_result
         return ret
 
     def alipay_http_gray_after_set(self,host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list,False)
         if ret:
-            push_result=self.nginx_templete_push
+            push_result=self.nginx_templete_push()
             print push_result
         return ret
 
     def baidu_http_gray_after_set(self,host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list,False)
         if ret:
-            push_result=self.nginx_templete_push
+            push_result=self.nginx_templete_push()
             print push_result
         return ret
 
@@ -128,7 +128,7 @@ class Business(object):
     def webserver_coreapi_gray_after_set(self, host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list,False)
         if ret:
-            push_result=self.nginx_templete_push
+            push_result=self.nginx_templete_push()
             print push_result
         return ret
 
@@ -136,7 +136,7 @@ class Business(object):
     def weibao_coreapi_gray_after_set(self, host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list,False)
         if ret:
-            push_result=self.nginx_templete_push
+            push_result=self.nginx_templete_push()
             print push_result
         return ret
 
@@ -144,7 +144,7 @@ class Business(object):
     def alipay_coreapi_gray_after_set(self, host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list,False)
         if ret:
-            push_result=self.nginx_templete_push
+            push_result=self.nginx_templete_push()
             print push_result
         return ret
 
@@ -152,7 +152,7 @@ class Business(object):
     def baidu_coreapi_gray_after_set(self, host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list,False)
         if ret:
-            push_result=self.nginx_templete_push
+            push_result=self.nginx_templete_push()
             print push_result
         return ret
 

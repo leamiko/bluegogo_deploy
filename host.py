@@ -72,7 +72,7 @@ class Host(object):
             if not target_expr:
                 target_expr = "L@%s" % (i)
             else:
-                target_expr = "%s,%i" % (target_expr, i)
+                target_expr = "%s,%s" % (target_expr, i)
         return target_expr
 
     def deploy_type_grains_set(self,deploy_type,host_list):

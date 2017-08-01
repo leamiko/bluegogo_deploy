@@ -91,6 +91,7 @@ class Host(object):
         for gray_ip,host_list in ip_dict.items():
             target_expr = self.host_expr_generate(host_list)
             set_ret = self.salt_obj.cmd(target_expr, 'grains.setval', ["gray_ip", gray_ip], expr_form='compound')
+            self.salt_obj.cmd(target_expr, 'saltutil.sync_grains', [], expr_form='compound')
             print set_ret
 
     def fetch_host_ip(self,target_expr):

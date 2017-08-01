@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 #_*_ coding:utf-8 _*_
-import sys
+import sys,time
 from host import Host
 from business import Business
+
+
 class BusinessDeploy(object):
 
     def __init__(self):
@@ -14,6 +16,7 @@ class BusinessDeploy(object):
         self.host_obj = Host(self.business,self.deploy_type)
         print "开始设置业务服务器grains信息"
         self.host_obj.host_grains_set()
+        # time.sleep(2)
         self.deploy_host_list = self.host_obj.deploy_host_dict.keys()
         print "本次所有需要部署的主机列表：%s" % self.deploy_host_list
         self.business_deploy()

@@ -2,7 +2,7 @@
 #_*_ coding:utf-8 _*_
 
 
-business_list = ["mqtt","webserver_http","weibao_http","alipay_http","baidu_http","webserver_coreapi","weibao_coreapi","alipay_coreapi","baidu_coreapi"]
+business_list = ["mqtt","webserver_http","weibao_http","alipay_http","baidu_http","webserver_coreapi","weibao_coreapi","alipay_coreapi","baidu_coreapi","guanli"]
 deploy_type = ["online","gray"]
 memcached_addr = "127.0.0.1"
 gray_host_num = 2
@@ -18,6 +18,7 @@ nginx_config = {
     "alipay_coreapi":"alipay-coreapi.bluegogo.com.conf",
     "baidu_http":"baidu-api.bluegogo.com.conf",
     "baidu_coreapi":"baidu-coreapi.bluegogo.com.conf",
+    "guanli":"admin-internal.bluegogo.com.conf",
     "nginx_conf_push_sls":"nginx"
 }
 

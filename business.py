@@ -53,6 +53,8 @@ class Business(object):
             sys.exit("\033[31;1mOperation faild..!!!\033[0m")
         return tag
 
+
+    ##部署之前的相关配置
     def webserver_http_gray_before_set(self,host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list)
         if ret:
@@ -117,6 +119,17 @@ class Business(object):
             self.ret_check(push_result)
         return ret
 
+    def guanli_gray_before_set(self, host_ip_list):
+        ret = self.gray_nginx_templete_set(host_ip_list)
+        if ret:
+            push_result=self.nginx_templete_push()
+            print "推送nginx配置至nginx服务器："
+            self.ret_check(push_result)
+        return ret
+
+
+
+    ##部署之后的相关配置
     def webserver_http_gray_after_set(self,host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list,False)
         if ret:
@@ -178,6 +191,14 @@ class Business(object):
 
 
     def baidu_coreapi_gray_after_set(self, host_ip_list):
+        ret = self.gray_nginx_templete_set(host_ip_list,False)
+        if ret:
+            push_result=self.nginx_templete_push()
+            print "推送nginx配置至nginx服务器："
+            self.ret_check(push_result)
+        return ret
+
+    def guanli_gray_after_set(self, host_ip_list):
         ret = self.gray_nginx_templete_set(host_ip_list,False)
         if ret:
             push_result=self.nginx_templete_push()

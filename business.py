@@ -20,9 +20,11 @@ class Business(object):
         from config import business_list
         return business_list
 
-    def gray_nginx_templete_set(self,host_ip_list,tag=True):
-        # print self.business
-        nginx_file = "%s%s" % (nginx_config["root_dir"], nginx_config[self.business])
+    def gray_nginx_templete_set(self,host_ip_list,tag=True,business=None):
+        if not business:
+            business = self.business
+        # print business
+        nginx_file = "%s%s" % (nginx_config["root_dir"], nginx_config[business])
         for i in host_ip_list:
             if tag:
                 ret = subprocess.Popen("sed -i '/%s/s/^/#/' %s" % (i,nginx_file),shell=True, cwd='/tmp/',stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -88,6 +90,7 @@ class Business(object):
         return ret
 
     def webserver_coreapi_gray_before_set(self, host_ip_list):
+        self.gray_nginx_templete_set(host_ip_list,True,"webserver_http")
         ret = self.gray_nginx_templete_set(host_ip_list)
         if ret:
             push_result=self.nginx_templete_push()
@@ -173,6 +176,7 @@ class Business(object):
 
 
     def weibao_coreapi_gray_after_set(self, host_ip_list):
+        self.gray_nginx_templete_set(host_ip_list,False,"webserver_http")
         ret = self.gray_nginx_templete_set(host_ip_list,False)
         if ret:
             push_result=self.nginx_templete_push()

@@ -167,6 +167,7 @@ class Business(object):
 
 
     def webserver_coreapi_gray_after_set(self, host_ip_list):
+        self.gray_nginx_templete_set(host_ip_list, False, "webserver_http")
         ret = self.gray_nginx_templete_set(host_ip_list,False)
         if ret:
             push_result=self.nginx_templete_push()
@@ -176,7 +177,6 @@ class Business(object):
 
 
     def weibao_coreapi_gray_after_set(self, host_ip_list):
-        self.gray_nginx_templete_set(host_ip_list,False,"webserver_http")
         ret = self.gray_nginx_templete_set(host_ip_list,False)
         if ret:
             push_result=self.nginx_templete_push()

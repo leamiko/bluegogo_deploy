@@ -7,6 +7,7 @@ from config import nginx_config
 from host import Host
 import salt.client
 
+#业务配置类
 class Business(object):
 
     def __init__(self,deploy_type,business):

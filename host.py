@@ -6,6 +6,8 @@ import salt.client
 import memcache
 from config import memcached_addr
 
+
+#主机配置类
 class Host(object):
     def __init__(self,business,deploy_type):
         self.business = business
